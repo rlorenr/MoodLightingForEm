@@ -2,13 +2,14 @@ CC = gcc
 CFLAGS =
 CCFLAGS = 
 CPPFLAGS = -Wall
-LIBFLAGS =
+LIBFLAGS = -lm
 PRODFLAGS = -OFast -funroll-loop
 
 EXEC = mlfe
 PROJECTNAME = MoodLightingForEm
 
-SRCS = main.c
+SRCS = main.c functions.c
+HDRS = prototypes.h constants.h
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean pristine fresh backup keepsake deliverable
@@ -45,9 +46,9 @@ keepsake: pristine backup
 deliverable: clean backup
 
 $(EXEC): $(OBJS)
-	$(CC) $(CCFLAGS) $(LIBFLAGS) -o $(EXEC) $(OBJS)
+	$(CC) $(CCFLAGS) -o $(EXEC) $(OBJS) $(LIBFLAGS)
 
-%.o:%.c
+%.o:%.c $(HDRS)
 	$(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
 production: $(SRCS)
